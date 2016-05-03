@@ -1,0 +1,111 @@
+<header class="main-header">
+
+        <!-- Logo -->
+        <a href="welcome.jsp" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>CrowdSourcing</b></span>
+        </a>
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <!-- Navbar Right Menu -->
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Messages: style can be found in dropdown.less-->
+              <%@ page import="INSE6260.MessageClass" %>
+              <%
+			    MessageClass mobjx= new MessageClass();	  
+				 MessageClass tempm;
+				 int newMsgs = 0;
+               ArrayList<MessageClass> mlx = mobjx.select("where receiver="+Integer.parseInt(session.getAttribute("sess_user_id").toString())+" and status=0 order by createdon desc");               
+              //out.println("User: "+Integer.parseInt(session.getAttribute("sess_user_id").toString())+"");
+			  newMsgs = mlx.size();
+               if(mlx.size()>0){
+				
+				 
+			  %>
+              <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-envelope-o"></i>
+                  <span class="label label-success"><%=newMsgs%></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have <%=newMsgs%> messages</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                    <%
+					 for (int i = 0; i < mlx.size(); i++) {
+					tempm = new MessageClass();
+					 tempm  = mlx.get(i);
+					 
+					 UsersClass uObj = new UsersClass();
+					 
+					 
+					 %>
+					 <li><!-- start message -->
+                        <a href="viewmessage.jsp?id=<%=tempm.getId()%>">
+                          <div class="pull-left">
+                            <img src="dist/img/<%=tempm.getSender()%>.jpg" class="img-circle" alt="User Image">
+                          </div>
+                          <h4>
+                            <%=uObj.getFullName(tempm.getSender())%>
+                            <small><i class="fa fa-clock-o"></i> <%=tempm.getCreatedOn()%></small>
+                          </h4>
+                          <p><%=tempm.getSubject()%></p>
+                        </a>
+                      </li><!-- end message -->
+					
+				  <% }%>
+                      
+                    
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="messageslist.jsp">See All Messages</a></li>
+                </ul>
+              </li>
+              <%	  
+			    
+			   }
+			   
+			  %>
+              
+              
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="dist/img/<%=(String)session.getAttribute("sess_photo")%>" class="user-image" alt="User Image">
+                  <span class="hidden-xs"><%=(String) session.getAttribute("sess_username")%></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="dist/img/<%=(String)session.getAttribute("sess_photo")%>" class="img-circle" alt="User Image">
+                    <p>
+                      <%=(String) session.getAttribute("sess_username")%>
+                      <small>Member since <%=(String)session.getAttribute("sess_user_createdon")%></small>
+                    </p>
+                  </li>                 
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="profile.jsp" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="Customer?process=logout" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+             
+            </ul>
+          </div>
+          </nav>
+      </header>

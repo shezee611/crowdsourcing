@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crowd Sourcing | Dashboard</title>  
+   <%@ include file="_inc/inc.jsp" %>
+  </head>
+  <body class="skin-blue sidebar-collapse">
+    <div class="wrapper">
+
+      <header class="main-header">
+
+      
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-left:0px;">
+          <!-- Sidebar toggle button-->
+          
+         
+
+        </nav>
+      </header>
+      
+      <div class="content-wrapper">       
+        
+        <section class="content-header">
+          <h1>Crowd Sourcing Login</h1>          
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <!-- right column -->
+            <div class="col-md-6">
+              <!-- Horizontal Form -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Login</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal" method="post">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="username" class="col-sm-2 control-label">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="username" name="username" placeholder="Email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                      </div>
+                    </div>
+                    
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                    <button type="button" class="btn btn-info pull-right" id="btn_submit">Sign in</button>
+                    <input type="hidden" name="process" value="login">
+                  </div><!-- /.box-footer -->
+                  <div id="loader_box"></div>
+                  <div class="alert-error"></div>
+                </form>
+              </div>
+            </div><!--/.col (left) -->
+            
+            <!-- colom on right -->
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">New User? Signup</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" id="frm_signup" enctype="multipart/form-data">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="txt_username" name="txt_username" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control" id="txt_password" name="txt_password" placeholder="Password" required>
+                    </div>
+
+<div class="form-group">
+                      <label for="txt_firstname">Firstname</label>
+                      <input type="text" class="form-control" id="txt_firstname" name="txt_firstname" placeholder="First Name" required>
+                    </div>
+
+<div class="form-group">
+                      <label for="lastname">Lastname</label>
+                      <input type="text" class="form-control" id="txt_lastname" name="txt_lastname" placeholder="Last Name" required>
+                    </div>
+
+
+                    
+                    <div class="form-group">
+                      <label for="txt_phone">Phone</label>
+                      <input type="text" class="form-control" id="txt_phone" name="txt_phone" placeholder="Phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="txt_location">Location</label>
+                      <input type="text" class="form-control" id="txt_location" name="txt_location" placeholder="Location" required>
+                    </div>
+                    
+                    <div class="form-group" style=" display:none;">
+                      <label for="txt_hour_rate">Hourly Rate (CAD)</label>
+                      <input type="text" class="form-control" id="txt_hour_rate" name="txt_hour_rate" placeholder="Hourly Rate" value="0">
+                    </div>
+                    
+                    
+                    
+                    <div class="form-group">
+                      <label for="exampleInputFile">Photo</label>
+                      <input type="file" id="file_photo"  name="file_photo" required>
+                      
+                    </div>
+                    
+                     <div class="form-group">
+                     Client Type
+                      <label for="rad_client">Client</label>
+                      <input type="radio" id="rad_client"  name="rad_user_type" value="1" checked>
+                      <label for="rad_worker">Worker</label>
+                      <input type="radio" id="rad_worker"  name="rad_user_type" value="2">
+                    </div>                 
+                    
+                    
+                   
+                  </div><!-- /.box-body -->
+
+                  <div class="box-footer">
+                    <button type="button" class="btn btn-primary" id="btn_signup">Submit</button>
+                    <input type="hidden" name="process" value="signup">
+                  </div>
+                  
+                  <div id="msgbox"></div>
+                  
+                  
+                </form>
+              </div><!-- /.box -->
+
+              
+
+            </div>
+            <!-- end colom right-->
+            
+          </div>   <!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      <%@ include file="_inc/footer.jsp"%>
+
+      
+
+    </div>
+    
+<script>
+$(function(){
+            $('#btn_submit').click(function(){
+				//alert($('#username').val());
+              $.post("Customer",{username:$('#username').val(),password:$('#password').val(),process:"login"},function(data){
+              //alert(data);
+                if(data == 200)
+                window.location.href = 'welcome.jsp';
+                else
+                alert("Invalid username or password.");
+            });    
+
+            });
+			
+			
+			
+			$('#btn_signup').click(function(){
+				
+				if($('#txt_username').val()==""){
+					alert("Please enter email as your username.");
+					return false;
+				}
+				if($('#txt_password').val()==""){
+					alert("Please enter passowrd.");
+					return false;
+				}
+				
+				if($('#txt_firstname').val()==""){
+					alert("Please enter your firstname.");
+					return false;
+				}
+				if($('#txt_lastname').val()==""){
+					alert("Please enter your lastname.");
+					return false;
+				}
+				if($('#txt_phone').val()==""){
+					alert("Please enter your phone.");
+					return false;
+				}
+				if($('#txt_location').val()==""){
+					alert("Please enter your location.");
+					return false;
+				}
+				
+				
+				
+				$.post("Customer",{txt_username: $('#txt_username').val(),process:"checkuser"},function(data){					
+				 // alert(data);
+				  if(data == 200)                
+               			$('#msgbox').html("User alreaedy exist. Please try another username.");
+					
+				 else{              
+               			$('#msgbox').html("User has been created successfully.");
+				
+				$.post("Customer",$('#frm_signup').serialize(),function(data){					
+				  //alert(data);	
+				   if(data == 200)                
+               			$('#msgbox').html("User has been created successfully.");
+				});
+				 }
+				});
+			});
+			
+			
+		
+			
+});
+
+
+</script> 
+ 
+  </body>
+</html>

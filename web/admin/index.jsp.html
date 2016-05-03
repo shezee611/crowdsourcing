@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crowd Sourcing | Dashboard</title>  
+   <%@ include file="../_inc/inc.jsp" %>
+  </head>
+  <body class="skin-blue sidebar-collapse">
+    <div class="wrapper">
+
+      <header class="main-header">
+
+      
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-left:0px;">
+          <!-- Sidebar toggle button-->
+          
+         
+
+        </nav>
+      </header>
+      
+      <div class="content-wrapper">       
+        
+        <section class="content-header">
+          <h1>Crowd Sourcing Admin Login</h1>          
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <!-- right column -->
+            <div class="col-md-6">
+              <!-- Horizontal Form -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Login</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal" method="post">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="username" class="col-sm-2 control-label">Email</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Remember me
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                    <button type="button" class="btn btn-info pull-right" id="btn_submit">Sign in</button>
+                    <input type="hidden" name="process" value="login">
+                  </div><!-- /.box-footer -->
+                  <div id="loader_box"></div>
+                  <div class="alert-error"></div>
+                </form>
+              </div>
+            </div><!--/.col (left) -->
+            
+            <!-- colom on right -->
+            
+            <!-- end colom right-->
+            
+          </div>   <!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      <%@ include file="../_inc/footer.jsp"%>
+
+      
+
+    </div>
+    
+  <script>
+            $('#btn_submit').click(function(){
+            $.post("/CrowdSourcing/Login",{username:$('#username').val(),password:$('#password').val(),process:"login"},function(data){
+               // alert(data);
+                if(data == 200)
+                window.location.href = 'welcome.jsp';
+                else
+                    alert("Invalid username or password.");
+            });    
+            });
+        </script>
+ 
+  </body>
+</html>
